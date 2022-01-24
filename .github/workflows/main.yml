@@ -1,37 +1,51 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Encrypt Secrets
 
 # Controls when the workflow will run
 on:
   workflow_dispatch:
     inputs:
-      logLevel:
+      environment:
         description: 'Log level'     
         required: true
-        default: 'warning'
-      tags:
-        description: 'Test scenario tags'  
+        default: 'INT'
+      commit_message:
+        description: 'Message to use for secrets commit'  
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  encrypt:
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+      
+      - name: Add Nuget sources
+        run: dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
+        
+      - name: Install PF cli
+        run: dotnet tool install -g dotnetsay 
+        
+      - name: Assume correct Upper IAM role
+        run: echo "aws sts assume-role --role-arn "arn:aws:iam::248362051620:role/UpperBuildAgent"
+        
+      # Execute the pf cli
+      - name: Run the tool
         run: |
-          echo "Log level: ${{ github.event.inputs.logLevel }}"
-          echo "Tags: ${{ github.event.inputs.tags }}"
-          echo test, and deploy your project.
+          cd Controllers
+          dotnetsay ${{ github.event.inputs.environment }} > appsettings.INT.json
+     
+     # Create branch and PR
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: "${{ github.event.inputs.commit_message }}"
+          title: "Update secrets for ${{ github.events.inputs.environment }}"
+          body: Encrypting secret values from AWS Secret Manager.
+          branch: "update-${{ github.events.inputs.environment }}-secrets"
