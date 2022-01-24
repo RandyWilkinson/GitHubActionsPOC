@@ -46,6 +46,6 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           commit-message: "${{ github.event.inputs.commit_message }}"
-          title: "Update secrets for ${{ github.events.inputs.environment }}"
+          title: "Update secrets for ${{ github.event.inputs.environment }}"
           body: Encrypting secret values from AWS Secret Manager.
-          branch: "update-${{ github.events.inputs.environment }}-secrets"
+          branch: "update-${{ github.event.inputs.environment }}-secrets"
