@@ -33,7 +33,7 @@ jobs:
         run: dotnet tool install -g dotnetsay 
         
       - name: Assume correct Upper IAM role
-        run: echo "aws sts assume-role --role-arn "arn:aws:iam::248362051620:role/UpperBuildAgent"
+        run: echo "aws sts assume-role --role-arn 'arn:aws:iam::248362051620:role/UpperBuildAgent'"
         
       # Execute the pf cli
       - name: Run the tool
