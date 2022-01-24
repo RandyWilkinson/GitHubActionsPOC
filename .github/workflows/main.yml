@@ -27,7 +27,7 @@ jobs:
           dotnet-version: 5.0.x
       
       - name: Add Nuget sources
-        run: dotnet nuget add source https://api.nuget.org/v3/index.json -n pf.org
+        run: dotnet nuget add source https://www.myget.org/F/aspnetwebstacknightly/ -n pf.org
         
       - name: Install PF cli
         run: dotnet tool install -g dotnetsay 
