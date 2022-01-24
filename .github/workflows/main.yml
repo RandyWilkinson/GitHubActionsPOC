@@ -1,4 +1,4 @@
-# This is a basic workflow to help you get started with Actions
+# This workflows allows for a manually triggered update of the encrypted secrets in application config
 
 name: Encrypt Secrets
 
@@ -14,7 +14,7 @@ on:
         description: 'Message to use for secrets commit'  
 
 jobs:
-  encrypt:
+  encrypt_secrets:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,7 +27,7 @@ jobs:
           dotnet-version: 5.0.x
       
       - name: Add Nuget sources
-        run: dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
+        run: dotnet nuget add source https://api.nuget.org/v3/index.json -n pf.org
         
       - name: Install PF cli
         run: dotnet tool install -g dotnetsay 
