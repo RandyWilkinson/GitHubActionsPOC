@@ -18,6 +18,7 @@ on:
         default: 'INT'
       jira_id:
         description: 'Jira ticket id to use for commit'  
+        required: true
 
 jobs:
   encrypt_secrets:
