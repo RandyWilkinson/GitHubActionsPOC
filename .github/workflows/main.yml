@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Log level'     
+        type: environment     
         required: true
         default: 'INT'
       commit_message:
