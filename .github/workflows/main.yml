@@ -7,11 +7,17 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        type: environment     
+        type: choice     
         required: true
+        options:
+          - INT
+          - QA
+          - RC
+          - STG
+          - PRD
         default: 'INT'
-      commit_message:
-        description: 'Message to use for secrets commit'  
+      jira_id:
+        description: 'Jira ticket id to use for commit'  
 
 jobs:
   encrypt_secrets:
@@ -39,13 +45,13 @@ jobs:
       - name: Run the tool
         run: |
           cd Controllers
-          dotnetsay ${{ github.event.inputs.environment }} > appsettings.INT.json
+          dotnetsay ${{ github.event.inputs.environment }} > appsettings.${{ github.event.inputs.environment }}.json
      
      # Create branch and PR
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          commit-message: "${{ github.event.inputs.commit_message }}"
+          commit-message: "${{ github.event.inputs.jira_id }} - Updating secrets"
           title: "Update secrets for ${{ github.event.inputs.environment }}"
           body: Encrypting secret values from AWS Secret Manager.
-          branch: "update-${{ github.event.inputs.environment }}-secrets"
+          branch: "feature/${{ github.event.inputs.jira_id }}-update-secrets"
