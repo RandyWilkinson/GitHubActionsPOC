@@ -18,14 +18,16 @@ jobs:
     steps:
       - name: Validate release date
         run: |
-          releaseDate=$(date -I -d "${{ inputs.releaseDate }}" 2>&1 /dev/null) 
-          echo "made it"
-          if [ ! $releaseDate ]
-          then
-              echo "::error Must supply a valid date for the release. '${{ inputs.releaseDate }}'"
-              exit 1
-          fi
+          releaseDate=$(date -I -d "${{ inputs.releaseDate }}") 
           echo "RELEASE_BRANCH_NAME=${releaseDate}_EHR" >> $GITHUB_ENV
 
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.commitHash }}
+        
       - name: Creating release branch
-        run: echo "releasedate=$RELEASE_BRANCH_NAME"
+        run: |
+          echo "Release Branch Name:$RELEASE_BRANCH_NAME"
+          git checkout -b release/$RELEASE_BRANCH_NAME
+          git push --set-upstream origin release/$RELEASE_BRANCH_NAME
