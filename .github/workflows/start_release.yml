@@ -14,13 +14,17 @@ on:
         default: ${{ github.sha }}
 
 jobs:
-  validate_date:
-    name: Validate release date
-    run: |
-      releasedate=date -d "${{inputs.releaseDate}}"
-       echo "RELEASE_DATE=$(releasedate)" >> $GITHUB_ENV
-  
-  create_branch:
-    name: Creating release branch
-    needs: validate_date
-    run: echo "releasedate=$RELEASE_DATE"
+  start_release:
+    runs-on: ubuntu-latest
+    steps:
+      validate_date:
+        name: Validate release date
+        steps:
+        run: |
+          releasedate=date -d "${{inputs.releaseDate}}"
+           echo "RELEASE_DATE=$(releasedate)" >> $GITHUB_ENV
+
+      create_branch:
+        name: Creating release branch
+        needs: validate_date
+        run: echo "releasedate=$RELEASE_DATE"
