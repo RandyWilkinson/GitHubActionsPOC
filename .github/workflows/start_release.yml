@@ -1,0 +1,26 @@
+name: Start Release Manual Workflow
+on:
+  workflow_dispatch:
+    inputs:
+      releaseDate:
+        description: 'Date of release'
+        required: true
+        type: string
+        
+      commitHash:
+        description: 'Specific Commit Hash (Optional)'
+        required: false
+        type: string
+        default: ${{ github.sha }}
+
+jobs:
+  validate_date:
+    name: Validate release date
+    run: |
+      releasedate=date -d "${{inputs.releaseDate}}"
+       echo "RELEASE_DATE=$(releasedate)" >> $GITHUB_ENV
+  
+  create_branch:
+    name: Creating release branch
+    needs: validate_date
+    run: echo "releasedate=$RELEASE_DATE"
