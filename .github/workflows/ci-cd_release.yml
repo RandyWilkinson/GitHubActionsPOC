@@ -1,5 +1,9 @@
 name: CI-CD for Release Canidate
 on: 
+  create:
+    branches:
+      - release/*
+      - hotfix/*
   push:
     branches:
       - release/*
