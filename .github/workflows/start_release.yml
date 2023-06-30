@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Validate release date
         run: |
-          releaseDate=$(date -I -d "${{ inputs.releaseDate }}") 2>/dev/null
+          releaseDate=$(date -I -d "${{ inputs.releaseDate }}" 2> /dev/null) 
           if [ ! $releaseDate ]
           then
               echo "::error Must supply a valid date for the release. '${{ inputs.releaseDate }}'"
