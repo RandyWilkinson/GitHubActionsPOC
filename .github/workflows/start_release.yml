@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Validate release date
         run: |
-          releasedate=date -d "${{inputs.releaseDate}}"
+          releasedate=$(date -d "${{inputs.releaseDate}}")
            echo "RELEASE_DATE=$(releasedate)" >> $GITHUB_ENV
 
       - name: Creating release branch
