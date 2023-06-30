@@ -11,7 +11,6 @@ on:
         description: 'Specific Commit Hash (Optional)'
         required: false
         type: string
-        default: ${{ github.sha }}
 
 jobs:
   start_release:
