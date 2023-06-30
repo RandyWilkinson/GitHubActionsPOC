@@ -21,7 +21,7 @@ jobs:
           releaseDate=$(date -d "${{ inputs.releaseDate }}" -I 2>/dev/null)
           if [ ! $releaseDate ]
           then
-              echo "Must supply a valid date for the release. '${{ inputs.releaseDate }}'"
+              echo "::error Must supply a valid date for the release. '${{ inputs.releaseDate }}'"
               exit 1
           fi
           echo "RELEASE_BRANCH_NAME=${releaseDate}_EHR" >> $GITHUB_ENV
