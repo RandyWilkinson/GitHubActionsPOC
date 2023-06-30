@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Validate release date
         run: |
-          releaseDate=$(date -I -d "${{ inputs.releaseDate }}" 2> /dev/null) 
+          releaseDate=$(date -I -d "${{ inputs.releaseDate }}" 2>&1 /dev/null) 
           echo "made it"
           if [ ! $releaseDate ]
           then
