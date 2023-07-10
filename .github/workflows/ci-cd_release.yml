@@ -10,7 +10,7 @@ jobs:
     name: Create or update release PR for STG
     uses: ./.github/workflows/release.yml
     with:
-      target_env: int
+      target_env: stg
       
   build_test:
     name: Build and Test
