@@ -1,0 +1,17 @@
+name: 'Create Release PR in Cluster Config Repo'
+on:
+  workflow_call:
+    inputs:
+      target_env:
+        description: 'Environment configuration branch to update'
+        type: string
+        required: true
+        
+jobs:
+  release:
+    if: (startsWith(github.ref_name, 'release/') || startsWith(github.ref_name, 'hotfix/')) && (inputs.target_env == 'STG' || inputs.target_env == 'PRD')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate release date
+        run: |
+          echo "RELEASE_BRANCH_NAME=${{ github.ref_name }}"
