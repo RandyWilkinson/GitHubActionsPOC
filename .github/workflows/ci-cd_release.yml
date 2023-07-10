@@ -6,8 +6,13 @@ on:
       - hotfix/**
       
 jobs:
+  create_STG_PR:
+    name: Create or update release PR for STG
+    uses: ./.github/workflows/release.yml
+    with:
+      target_env: stg
+      
   build_test:
-    if: (startsWith(github.ref_name, 'release/') || startsWith(github.ref_name, 'hotfix/')) && (inputs.target_env == 'STG' || inputs.target_env == 'PRD')
     name: Build and Test
     runs-on: ubuntu-latest
     steps:
