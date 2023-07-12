@@ -15,18 +15,34 @@ on:
 jobs:
   start_release:
     runs-on: ubuntu-latest
-    environment: RC
     steps:
       - name: Validate release date
         run: |
           releaseDate=$(date -I -d "${{ inputs.releaseDate }}") 
           echo "RELEASE_BRANCH_NAME=${releaseDate}_EHR" >> $GITHUB_ENV
-
+          
       - name: Checkout Code
         uses: actions/checkout@v3
         with:
           ref: ${{ inputs.commitHash }}
-        
+          
+      - name: Release Summary
+        run: |
+          commitInfo="$(git log -1 --format=oneline)" 
+          echo "Starting a release for $RELEASE_BRANCH_NAME from:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+          echo "- $commitInfo " >> $GITHUB_STEP_SUMMARY
+      
+       
+  create_release_branch:
+    needs: start_release
+    runs-on: ubuntu-latest
+    environment: RC
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.commitHash }}
       - name: Creating release branch
         run: |
           echo "Release Branch Name:$RELEASE_BRANCH_NAME"
