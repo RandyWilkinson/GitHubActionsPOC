@@ -1,3 +1,5 @@
+# This reusable action is for starting a release from a workflow dispatch prompt
+# more comments.
 name: Start Release Manual Workflow
 on:
   workflow_dispatch:
