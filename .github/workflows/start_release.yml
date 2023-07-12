@@ -57,6 +57,6 @@ jobs:
   
   deploy:
     needs: create_release_branch
-    uses: ./.github/workflows/CI-CD_release.yml
+    uses: ./.github/workflows/ci-cd_release.yml
     with:
       commitHash: ${{ needs.create_release_branch.outputs.release_branch_name }}
