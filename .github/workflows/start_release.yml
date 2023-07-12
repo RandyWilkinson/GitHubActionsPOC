@@ -49,6 +49,5 @@ jobs:
           ref: ${{ inputs.commitHash }}
       - name: Creating release branch
         run: |
-          echo "Release Branch Name:$RELEASE_BRANCH_NAME"
-          git checkout -b release/$RELEASE_BRANCH_NAME
-          git push --set-upstream origin release/$RELEASE_BRANCH_NAME
+          git checkout -b release/${{ needs.start_release.outputs.release_branch_name }}
+          git push --set-upstream origin release/${{ needs.start_release.outputs.release_branch_name }}
