@@ -28,7 +28,7 @@ jobs:
           
       - name: Release Summary
         run: |
-          currentBranch="$(git branch --show-current)"
+          currentBranch="$(git symbolic-ref --short HEAD)"
           commitInfo="$(git log -1 --format=oneline)" 
           echo "Starting a release for $RELEASE_BRANCH_NAME from $currentBranch" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
