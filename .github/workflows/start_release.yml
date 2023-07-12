@@ -29,7 +29,7 @@ jobs:
       - name: Release Summary
         run: |
           commitInfo="$(git log -1 --format=oneline)" 
-          echo "Starting a release for $RELEASE_BRANCH_NAME from >> $GITHUB_STEP_SUMMARY
+          echo "Starting a release for $RELEASE_BRANCH_NAME from" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
           echo "- $commitInfo " >> $GITHUB_STEP_SUMMARY
       
