@@ -51,3 +51,8 @@ jobs:
         run: |
           git checkout -b release/${{ needs.start_release.outputs.release_branch_name }}
           git push --set-upstream origin release/${{ needs.start_release.outputs.release_branch_name }}
+      - name: Trigger CI/CD
+        run: |
+          git commit --allow-empty -m "Trigger Build"
+          git push
+  
