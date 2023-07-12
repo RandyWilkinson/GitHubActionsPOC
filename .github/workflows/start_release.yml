@@ -15,11 +15,15 @@ on:
 jobs:
   start_release:
     runs-on: ubuntu-latest
+    outputs:
+      release_branch_name: ${{ steps.validate.outputs.release_branch_name }}
     steps:
       - name: Validate release date
+        id: validate
         run: |
           releaseDate=$(date -I -d "${{ inputs.releaseDate }}") 
           echo "RELEASE_BRANCH_NAME=${releaseDate}_EHR" >> $GITHUB_ENV
+          echo "release_branch_name=${releaseDate}_EHR" >> $GITHUB_OUTPUT
           
       - name: Checkout Code
         uses: actions/checkout@v3
