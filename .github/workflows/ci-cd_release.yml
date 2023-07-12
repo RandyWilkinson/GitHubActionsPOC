@@ -1,9 +1,14 @@
 name: CI-CD for Release Canidate
 on: 
-  push:
-    branches:
-      - release/**
-      - hotfix/**
+ workflow_call:
+    inputs:      
+      commitHash:
+        type: string
+        required: false
+ push:
+   branches:
+     - release/**
+     - hotfix/**
       
 jobs:
   build_test:
