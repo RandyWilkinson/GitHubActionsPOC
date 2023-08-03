@@ -1,0 +1,36 @@
+name: Finish Release Manual Workflow
+on:
+  workflow_dispatch:
+     
+jobs:
+  start_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+        
+      - name: Merge and tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # set identity
+          git config --global user.email "devops@practicefusion.com"
+          git config --global user.name "devops_automation"
+
+          # merge release to master
+          git checkout master
+          git pull
+          git merge --no-ff release/${{ github.ref_name }}
+          git push origin master
+
+          # tag the merge commit & push tag to origin
+          git tag ${{ github.ref_name }}
+          git push origin ${{ github.ref_name }}
+
+          # delete release branch
+          git push -d origin release/${{ github.ref_name }}
+        
+          # create GitHub release
+          gh release create $RELEASE_BRANCH_NAME --generate-notes
